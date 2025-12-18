@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardItem } from "../dashboard-item/dashboard-item";
 
@@ -10,17 +10,17 @@ import { DashboardItem } from "../dashboard-item/dashboard-item";
   styleUrl: './server-status.css',
 })
 export class ServerStatus {
-currentStatus = 'online'
+currentStatus =signal<'online' | 'offline' | 'unknown'>('online');
 constructor() {  
   
   setInterval(() => {
     const rand = Math.random();
     if (rand < 0.4) {
-      this.currentStatus = 'online';
+      this.currentStatus.set('online');
     } else if (rand < 0.8) {
-      this.currentStatus = 'offline';
+      this.currentStatus.set('offline');
     } else {
-      this.currentStatus = 'unknown';
+      this.currentStatus.set('unknown');
     }
        console.log('Status actual:', this.currentStatus);
     }, 5000);
